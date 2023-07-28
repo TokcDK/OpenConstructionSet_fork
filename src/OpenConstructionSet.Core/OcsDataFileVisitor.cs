@@ -163,7 +163,6 @@ public class OcsDataFileVisitor
     protected virtual void OnReadFloatValue(int index, string key, float value) { }
     protected virtual void OnCompleteFloatValues() { }
 
-
     protected virtual void OnStartIntValues(int count) { }
     protected virtual void OnReadIntValue(int index, string key, int value) { }
     protected virtual void OnCompleteIntValues() { }

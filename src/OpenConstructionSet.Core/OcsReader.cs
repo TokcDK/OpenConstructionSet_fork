@@ -29,7 +29,7 @@ public class OcsReader : BinaryReader
         return value;
     }
 
-    public MergeData ReadMergeData() => new MergeData(ReadString(), ReadUInt32(), ReadUInt32());
+    public MergeData ReadMergeData() => new(ReadString(), ReadUInt32(), ReadUInt32());
 
     public MergeData[] ReadMergeDataCollection()
     {

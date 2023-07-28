@@ -1,4 +1,6 @@
-﻿namespace OpenConstructionSet.Core.Models;
+﻿using OpenConstructionSet.Core.Models;
+
+namespace OpenConstructionSet.Core;
 
 public record class Header(int Version,
                            string Author,
