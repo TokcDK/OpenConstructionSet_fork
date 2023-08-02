@@ -37,7 +37,7 @@ public class OcsWriter : BinaryWriter
 
         Write(value.SaveCount);
         Write(value.LastMerge);
-        Write(value.MergeData);
+        Write(value.MergeEntries);
 
         long length = BaseStream.Position - start;
 
@@ -49,14 +49,14 @@ public class OcsWriter : BinaryWriter
         BaseStream.Seek(length, SeekOrigin.Current);
     }
 
-    public void Write(MergeData value)
+    public void Write(MergeEntry value)
     {
         Write(value.Key);
         Write(value.SaveCounter1);
         Write(value.SaveCounter2);
     }
 
-    public void Write(MergeData[] values)
+    public void Write(MergeEntry[] values)
     {
         Write((byte)values.Length);
 

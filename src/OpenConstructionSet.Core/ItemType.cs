@@ -1,4 +1,4 @@
-﻿namespace OpenConstructionSet.Core.Models;
+﻿namespace OpenConstructionSet.Core;
 
 public enum ItemType
 {

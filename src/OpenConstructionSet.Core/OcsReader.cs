@@ -1,7 +1,7 @@
-﻿using System;
+﻿using OpenConstructionSet.Core.Models;
 using System.Text;
 
-namespace OpenConstructionSet.Core.Models;
+namespace OpenConstructionSet.Core;
 
 public class OcsReader : BinaryReader
 {
@@ -16,28 +16,28 @@ public class OcsReader : BinaryReader
         _ => null
     };
 
-    private Header ReadHeader() => new(ReadInt32(), ReadString(), ReadString(), ReadString(), ReadString(), 1, 0, Array.Empty<MergeData>(), false);
+    private Header ReadHeader() => new(ReadInt32(), ReadString(), ReadString(), ReadString(), ReadString(), 1, 0, Array.Empty<MergeEntry>(), false);
 
     private Header ReadHeaderWithMergeData()
     {
         var end = ReadInt32() + BaseStream.Position;
 
-        var value = new Header(ReadInt32(), ReadString(), ReadString(), ReadString(), ReadString(), ReadUInt32(), ReadUInt32(), ReadMergeDataCollection(), true);
+        var value = new Header(ReadInt32(), ReadString(), ReadString(), ReadString(), ReadString(), ReadUInt32(), ReadUInt32(), ReadMergeEntries(), true);
 
         BaseStream.Seek(end, SeekOrigin.Begin);
 
         return value;
     }
 
-    public MergeData ReadMergeData() => new(ReadString(), ReadUInt32(), ReadUInt32());
+    public MergeEntry ReadMergeEntry() => new(ReadString(), ReadUInt32(), ReadUInt32());
 
-    public MergeData[] ReadMergeDataCollection()
+    public MergeEntry[] ReadMergeEntries()
     {
-        var values = new MergeData[ReadByte()];
+        var values = new MergeEntry[ReadByte()];
 
         for (int i = 0; i < values.Length; i++)
         {
-            values[i] = ReadMergeData();
+            values[i] = ReadMergeEntry();
         }
 
         return values;

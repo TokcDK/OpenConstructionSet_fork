@@ -1,4 +1,6 @@
-﻿namespace OpenConstructionSet.Core.Models;
+﻿using OpenConstructionSet.Core.Models;
+
+namespace OpenConstructionSet.Core;
 
 public class OcsDataFileVisitor
 {
@@ -109,7 +111,7 @@ public class OcsDataFileVisitor
                 }
 
                 OnCompleteReferences();
-                OnCompleteReferenceCategory();
+                OnCompleteReferenceCategory(categoryIndex);
             }
             #endregion
 
@@ -132,7 +134,7 @@ public class OcsDataFileVisitor
 
             OnCompleteReferenceCategories();
 
-            OnCompleteItem(); 
+            OnCompleteItem(itemIndex);
             #endregion
         }
 
@@ -193,7 +195,7 @@ public class OcsDataFileVisitor
 
     protected virtual void OnCompleteReferences() { }
 
-    protected virtual void OnCompleteReferenceCategory() { }
+    protected virtual void OnCompleteReferenceCategory(int index) { }
 
     protected virtual void OnCompleteReferenceCategories() { }
 
@@ -203,7 +205,7 @@ public class OcsDataFileVisitor
 
     protected virtual void OnCompleteInstances() { }
 
-    protected virtual void OnCompleteItem() { }
+    protected virtual void OnCompleteItem(int index) { }
 
     protected virtual void OnCompleteItems() { }
 
