@@ -1,6 +1,6 @@
-﻿namespace OpenConstructionSet.Core;
+﻿namespace OpenConstructionSet.Core.Mod.Entities;
 
-public record ItemSaveData(uint SaveCount, ItemChangeType ChangeType)
+public record struct ItemSaveData(uint SaveCount, ItemChangeType ChangeType)
 {
     public static explicit operator ItemSaveData(uint value) => new(value >> 4, (ItemChangeType)((int)value & 0xF));
 

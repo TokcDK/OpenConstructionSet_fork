@@ -1,4 +1,4 @@
-﻿using OpenConstructionSet.Core.Models;
+﻿using OpenConstructionSet.Core.DataModels;
 
 namespace OpenConstructionSet.Core;
 
@@ -22,13 +22,7 @@ public class OcsDataFileVisitor
 
         for (int itemIndex = 0; itemIndex < itemCount; itemIndex++)
         {
-            OnStartItem(itemIndex,
-                        reader.ReadInt32(),
-                        (ItemType)reader.ReadInt32(),
-                        reader.ReadInt32(),
-                        reader.ReadString(),
-                        reader.ReadString(),
-                        (ItemSaveData)reader.ReadUInt32());
+            OnStartItem(itemIndex, reader.ReadItemHeader());
 
             #region Values
             var count = reader.ReadInt32();
@@ -84,7 +78,7 @@ public class OcsDataFileVisitor
 
             for (int i = 0; i < count; i++)
             {
-                OnReadFileValue(i, reader.ReadString(), reader.ReadFileValue());
+                OnReadFileValue(i, reader.ReadString(), reader.ReadString());
             }
             #endregion
 
@@ -103,11 +97,7 @@ public class OcsDataFileVisitor
 
                 for (int i = 0; i < referenceCount; i++)
                 {
-                    OnReadReference(i,
-                                reader.ReadString(),
-                                reader.ReadInt32(),
-                                reader.ReadInt32(),
-                                reader.ReadInt32());
+                    OnReadReference(i, reader.ReadReference());
                 }
 
                 OnCompleteReferences();
@@ -122,12 +112,7 @@ public class OcsDataFileVisitor
 
             for (int i = 0; i < count; i++)
             {
-                OnReadInstance(i,
-                           reader.ReadString(),
-                           reader.ReadString(),
-                           reader.ReadVector3(),
-                           reader.ReadRotation(),
-                           reader.ReadStrings());
+                OnReadInstance(i, reader.ReadInstance());
             }
 
             OnCompleteInstances();
@@ -144,37 +129,30 @@ public class OcsDataFileVisitor
     }
 
     protected virtual void OnStartReading(string? name) { }
-    protected virtual void OnReadFileVersion(FileVersion fileVersion) { }
-    protected virtual void OnReadHeader(Header? header) { }
+    protected virtual void OnReadFileVersion(int fileVersion) { }
+    protected virtual void OnReadHeader(HeaderModel? header) { }
     protected virtual void OnReadLastId(int LastId) { }
     protected virtual void OnStartItems(int count) { }
-    protected virtual void OnStartItem(int index,
-                                       int instanceCount,
-                                       ItemType type,
-                                       int id,
-                                       string name,
-                                       string stringId,
-                                       ItemSaveData saveData)
-    { }
+    protected virtual void OnStartItem(int index, in ItemHeaderModel value) { }
 
     protected virtual void OnStartBoolValues(int count) { }
-    protected virtual void OnReadBoolValue(int index, string key, bool value) { }
+    protected virtual void OnReadBoolValue(int index, string key, in bool value) { }
     protected virtual void OnCompleteBoolValues() { }
 
     protected virtual void OnStartFloatValues(int count) { }
-    protected virtual void OnReadFloatValue(int index, string key, float value) { }
+    protected virtual void OnReadFloatValue(int index, string key, in float value) { }
     protected virtual void OnCompleteFloatValues() { }
 
     protected virtual void OnStartIntValues(int count) { }
-    protected virtual void OnReadIntValue(int index, string key, int value) { }
+    protected virtual void OnReadIntValue(int index, string key, in int value) { }
     protected virtual void OnCompleteIntValues() { }
 
     protected virtual void OnStartVector3Values(int count) { }
-    protected virtual void OnReadVector3Value(int index, string key, Vector3 value) { }
+    protected virtual void OnReadVector3Value(int index, string key, in Vector3Model value) { }
     protected virtual void OnCompleteVector3Values() { }
 
     protected virtual void OnStartVector4Values(int count) { }
-    protected virtual void OnReadVector4Value(int index, string key, Vector4 value) { }
+    protected virtual void OnReadVector4Value(int index, string key, in Vector4Model value) { }
     protected virtual void OnCompleteVector4Values() { }
 
     protected virtual void OnStartStringValues(int count) { }
@@ -182,7 +160,7 @@ public class OcsDataFileVisitor
     protected virtual void OnCompleteStringValues() { }
 
     protected virtual void OnStartFileValues(int count) { }
-    protected virtual void OnReadFileValue(int index, string key, FileValue value) { }
+    protected virtual void OnReadFileValue(int index, string key, string value) { }
     protected virtual void OnCompleteFileValues() { }
 
     protected virtual void OnStartReferenceCategories(int count) { }
@@ -191,7 +169,7 @@ public class OcsDataFileVisitor
 
     protected virtual void OnStartReferences(int count) { }
 
-    protected virtual void OnReadReference(int index, string targetId, int value0, int value1, int value2) { }
+    protected virtual void OnReadReference(int index, in ReferenceModel value) { }
 
     protected virtual void OnCompleteReferences() { }
 
@@ -201,7 +179,7 @@ public class OcsDataFileVisitor
 
     protected virtual void OnStartInstances(int count) { }
 
-    protected virtual void OnReadInstance(int index, string id, string targetId, Vector3 position, Rotation rotation, string[] states) { }
+    protected virtual void OnReadInstance(int index, in InstanceModel value) { }
 
     protected virtual void OnCompleteInstances() { }
 

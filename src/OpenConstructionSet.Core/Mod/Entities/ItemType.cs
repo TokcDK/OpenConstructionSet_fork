@@ -1,4 +1,4 @@
-﻿namespace OpenConstructionSet.Core;
+﻿namespace OpenConstructionSet.Core.Mod.Entities;
 
 public enum ItemType
 {
